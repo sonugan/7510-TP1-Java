@@ -14,13 +14,14 @@ public class KnowledgeBaseTest {
 
 	@Before
 	public void setUp() throws Exception {
-		initMocks(this);
+		//initMocks(this);
+		this.knowledgeBase = new KnowledgeBase("c:\\gaston\\facultad\\tecnicas-disenio\\7510-TP1-Java\\src\\main\\resources\\rules.db");
 	}
 
 	@Test
 	public void test() {
 
-		Assert.assertTrue(this.knowledgeBase.answer("varon (javier)."));
+		Assert.assertTrue(this.knowledgeBase.answer("varon (juan)."));
 
 	}
 
