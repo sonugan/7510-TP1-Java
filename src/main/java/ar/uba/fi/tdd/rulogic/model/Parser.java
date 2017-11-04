@@ -3,6 +3,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ar.uba.fi.tdd.rulogic.exceptions.*;
+
 public class Parser {
 	public Parser(List<String> sentences){
 		parsedDb = new ArrayList<Sentence>();
@@ -53,25 +55,29 @@ public class Parser {
 		return null;
 	}
 
-	public List<Sentence> parse(){
+	public List<Sentence> parse() throws InvalidFormatException{
 		if(hasInvalidSentences()){
-			//TODO: EXCEPCION
+			throw new InvalidFormatException("La base de datos contiene sentencias incorrectas");
 		}
-		for(String sentence : this.db){
-			String name = getSentenceName(sentence);
-			List<String> params = getParameters(sentence);			
-			if(isRule(sentence)){
-				parsedDb.add(new Rule(name, params, getRuleComponents(sentence)));
-			}else{
-				Fact fact = (Fact)findByName(name);
-				if(fact != null){
-					fact.addArguments(params);
+		try{
+			for(String sentence : this.db){
+				String name = getSentenceName(sentence);
+				List<String> params = getParameters(sentence);			
+				if(isRule(sentence)){
+					parsedDb.add(new Rule(name, params, getRuleComponents(sentence)));
 				}else{
-					fact = new Fact(name, params.size());
-                    fact.addArguments(params);
-                    parsedDb.add(fact);
+					Fact fact = (Fact)findByName(name);
+					if(fact != null){
+						fact.addArguments(params);
+					}else{
+						fact = new Fact(name, params.size());
+						fact.addArguments(params);
+						parsedDb.add(fact);
+					}
 				}
 			}
+		}catch(InvalidFormatException ex){
+			throw new InvalidFormatException("La base de datos contiene sentencias incorrectas");
 		}
 		return parsedDb;
 	}
@@ -89,7 +95,7 @@ public class Parser {
 		return sentence.matches(".*:\\-.*");
 	}
 
-	private List<TrueFunction> getRuleComponents(String sentence){
+	private List<TrueFunction> getRuleComponents(String sentence) throws InvalidFormatException{
 		List<TrueFunction> trueFuncs = new ArrayList<TrueFunction>();
 
 		String[] components = sentence.replaceAll("^([^:]*:\\-)", "")
@@ -101,7 +107,7 @@ public class Parser {
 			List<String> params = getParameters(component);
 			Sentence s = findByName(name);
 			if(s == null){
-				//TODO: EXCEPCION
+				new InvalidFormatException("Las sentencias en la base de datos no se encuentran ordenadas de las mas independientes a las mas dependientes");
 			}					
 			trueFuncs.add(new TrueFunction(params, s));	
 		}

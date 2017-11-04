@@ -1,6 +1,8 @@
 package ar.uba.fi.tdd.rulogic.model;
 import java.util.*;
 
+import ar.uba.fi.tdd.rulogic.exceptions.InvalidFormatException;;
+
 public class Fact extends Sentence{
 	private int argsCount;
 	private List<List<String>> args;
@@ -11,9 +13,9 @@ public class Fact extends Sentence{
 		this.args = new ArrayList<List<String>>();
 	}
 
-	public void addArguments(List<String> args){
+	public void addArguments(List<String> args) throws InvalidFormatException{
 		if(args.size() != argsCount){
-			//TODO: excepcion
+			throw new InvalidFormatException("La cantidad de argumentos no es la indicada en la definición de la Fact");
 		}
 		this.args.add(args);
 	}

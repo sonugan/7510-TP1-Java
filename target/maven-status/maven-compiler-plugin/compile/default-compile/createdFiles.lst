@@ -5,5 +5,6 @@ ar\uba\fi\tdd\rulogic\model\Parser.class
 ar\uba\fi\tdd\rulogic\model\Sentence.class
 ar\uba\fi\tdd\rulogic\model\KnowledgeBase.class
 ar\uba\fi\tdd\rulogic\model\Rule.class
+ar\uba\fi\tdd\rulogic\exceptions\InvalidFormatException.class
 ar\uba\fi\tdd\rulogic\App.class
 ar\uba\fi\tdd\rulogic\model\QueryParser.class

@@ -8,7 +8,7 @@ public class RegexCollection {
     public static final String strFormatFactQueryParams = "\\([^\\( :-]{1,}(,[^\\( :-]{1,}){0,}\\)";
     public static final String strRule = "^[^\\(]{1,}\\([A-Z0-9]{1,}(,[A-Z0-9]{1,})*\\):-[^\\(]{1,}\\([A-Z0-9]{1,}(,[A-Z0-9]{1,})*\\)([^\\(]{1,}\\([A-Z0-9]{1,}(,[A-Z0-9]{1,})*\\))*$";
     public static final String strFact = "^" + strregFormatSentenceName + strFormatFactQueryParams + "$";
-	public static final String regValidSentence = "[a-zA-Z\\(\\):\\-]*";
+	public static final String regValidSentence = "(^[a-zA-Z]{1,}[a-zA-Z0-9]{1,}\\([a-z0-9]{1,}(,[a-z0-9]{1,})*\\)$)|(^[a-zA-Z]{1,}[a-zA-Z0-9]{1,}\\([A-Z0-9]{1,}(,[A-Z0-9]{1,})*\\):-[a-zA-Z]{1,}[a-zA-Z0-9]{1,}\\([A-Z0-9]{1,}(,[A-Z0-9]{1,})*\\)(,[a-zA-Z]{1,}[a-zA-Z0-9]{1,}\\([A-Z0-9]{1,}(,[A-Z0-9]{1,})*\\))*$)";
 
     // //Se declaran regular expressions con los formatos que deben cumplir las sentencias y consultas
     // //Nombre de las sentencias: facts, rules y queries
