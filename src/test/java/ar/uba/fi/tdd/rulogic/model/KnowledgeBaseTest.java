@@ -148,6 +148,15 @@ public class KnowledgeBaseTest {
 	}
 
 	@Test
+	public void testExistentRuleTio() {
+		try{
+			Assert.assertTrue(this.knowledgeBase.answer("tio(nicolas,alejandro,roberto)."));
+		}catch(InvalidFormatException ex){
+			Assert.assertTrue(false);
+		}
+	}
+
+	@Test
 	public void testExistentRuleWithTooManyArguments() {
 		try{
 			this.knowledgeBase.answer("hijo(pepe,juan,pepa).");
@@ -174,17 +183,10 @@ public class KnowledgeBaseTest {
 		}
 	}
 
-	public void testInexistentRule() {
-		try{
-			Assert.assertTrue(this.knowledgeBase.answer("hija(pepa,juan)."));
-		}catch(InvalidFormatException ex){
-			Assert.assertTrue(false);
-		}
-	}
-
+	@Test
 	public void testExistentRuleBadParameters() {
 		try{
-			Assert.assertTrue(this.knowledgeBase.answer("hijo(roberta,juana)."));
+			Assert.assertFalse(this.knowledgeBase.answer("hijo(roberta,juana)."));
 		}catch(InvalidFormatException ex){
 			Assert.assertTrue(false);
 		}
