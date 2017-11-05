@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
+import java.util.*;
 
 import ar.uba.fi.tdd.rulogic.exceptions.*;
 
@@ -14,10 +15,34 @@ public class KnowledgeBaseTest {
 	@InjectMocks
 	private KnowledgeBase knowledgeBase;
 
+	private List<String> validSentences = new ArrayList<String>()
+	{{
+		add("varon(juan).");
+		add("varon(pepe).");
+		add("varon(hector).");
+		add("varon(roberto).");
+		add("varon(alejandro).");
+		add("mujer(maria) .");
+		add("mujer(cecilia).");
+		add("padre(juan, pepe).");
+		add("padre(juan, pepa).");
+		add("padre(hector, maria).");
+		add("padre(roberto, alejandro).");
+		add("padre(roberto, cecilia).");
+		add("hijo(X, Y) :- varon(X), padre(Y, X).");
+		add("hija(X, Y) :- mujer(X), padre(Y, X).");
+		add("hermano(nicolas, roberto).");
+		add("hermano(roberto, nicolas).");
+		add("varon ( nicolas ) .");
+		add("tio(X, Y, Z):- varon(X),	hermano(X, Z),padre(Z, Y).");
+		add("tia(X, Y, Z):- mujer(X),	hermano(X, Z),padre(Z, Y).");		
+	}};
+
 	@Before
 	public void setUp() throws Exception {
 		//initMocks(this);
-		this.knowledgeBase = new KnowledgeBase("c:\\gaston\\facultad\\tecnicas-disenio\\7510-TP1-Java\\src\\main\\resources\\rules.db");
+		//this.knowledgeBase = new KnowledgeBase("c:\\gaston\\facultad\\tecnicas-disenio\\7510-TP1-Java\\src\\main\\resources\\rules.db");
+		this.knowledgeBase = new KnowledgeBase(validSentences);
 	}
 
 	@Test
@@ -93,6 +118,16 @@ public class KnowledgeBaseTest {
 			Assert.assertTrue(true);
 		}
 	}
+	
+	@Test
+	public void testFactWithoutName() {
+		try{
+			this.knowledgeBase.answer("(nicolas).");
+			Assert.assertTrue(false);
+		}catch(InvalidFormatException ex){
+			Assert.assertTrue(true);
+		}
+	}
 
 	@Test
 	public void testFactWithTooManyBlanksInTheMiddle() {
@@ -103,4 +138,55 @@ public class KnowledgeBaseTest {
 		}
 	}
 
+	@Test
+	public void testExistentRuleHijoPepeJuan() {
+		try{
+			Assert.assertTrue(this.knowledgeBase.answer("hijo(pepe,juan)."));
+		}catch(InvalidFormatException ex){
+			Assert.assertTrue(false);
+		}
+	}
+
+	@Test
+	public void testExistentRuleWithTooManyArguments() {
+		try{
+			this.knowledgeBase.answer("hijo(pepe,juan,pepa).");
+		}catch(InvalidFormatException ex){
+			Assert.assertTrue(true);
+		}
+	}
+
+	@Test
+	public void testExistentRuleWithNotEnoughArguments() {
+		try{
+			this.knowledgeBase.answer("hijo(pepe).");
+		}catch(InvalidFormatException ex){
+			Assert.assertTrue(true);
+		}
+	}
+
+	@Test
+	public void testRuleWithNoName() {
+		try{
+			this.knowledgeBase.answer("(pepe,juan).");
+		}catch(InvalidFormatException ex){
+			Assert.assertTrue(true);
+		}
+	}
+
+	public void testInexistentRule() {
+		try{
+			Assert.assertTrue(this.knowledgeBase.answer("hija(pepa,juan)."));
+		}catch(InvalidFormatException ex){
+			Assert.assertTrue(false);
+		}
+	}
+
+	public void testExistentRuleBadParameters() {
+		try{
+			Assert.assertTrue(this.knowledgeBase.answer("hijo(roberta,juana)."));
+		}catch(InvalidFormatException ex){
+			Assert.assertTrue(false);
+		}
+	}
 }

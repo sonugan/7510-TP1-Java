@@ -23,6 +23,7 @@ public class Rule extends Sentence {
 			i++;
 		}
 		for(TrueFunction f : this.trueFuncs){
+			System.out.println(f);
 			if(!f.evaluate(paramsToEval)){
 				return false;
 			}

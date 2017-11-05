@@ -50,7 +50,7 @@ public class Parser {
 		Matcher m = Pattern.compile("\\([^,:\\-\\)\\(]{1,}(,[^,:\\-\\)\\(]{1,})*\\)")
 			.matcher(sentence);
 		if(m.find()){
-			return Arrays.asList(m.group(0).replaceAll("/[\\(\\)]/", "").split(","));
+			return Arrays.asList(m.group(0).replaceAll("[\\(\\)]", "").split(","));
 		}
 		return null;
 	}
@@ -97,10 +97,9 @@ public class Parser {
 
 	private List<TrueFunction> getRuleComponents(String sentence) throws InvalidFormatException{
 		List<TrueFunction> trueFuncs = new ArrayList<TrueFunction>();
-
 		String[] components = sentence.replaceAll("^([^:]*:\\-)", "")
 				.replaceAll("\\),", ")|")
-				.split("|");
+				.split("\\|");
 
 		for( String component : components){
 			String name = getSentenceName(component);
@@ -108,7 +107,7 @@ public class Parser {
 			Sentence s = findByName(name);
 			if(s == null){
 				new InvalidFormatException("Las sentencias en la base de datos no se encuentran ordenadas de las mas independientes a las mas dependientes");
-			}					
+			}
 			trueFuncs.add(new TrueFunction(params, s));	
 		}
 

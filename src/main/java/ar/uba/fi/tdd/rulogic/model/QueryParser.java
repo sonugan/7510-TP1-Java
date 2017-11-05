@@ -33,7 +33,7 @@ public class QueryParser {
 		Matcher m = Pattern.compile("\\([^,:\\-\\)\\(]{1,}(,[^,:\\-\\)\\(]{1,})*\\)")
 			.matcher(sentence);
 		if(m.find()){
-			return Arrays.asList(m.group(0).replaceAll("/[\\(\\)]/", "").split(","));
+			return Arrays.asList(m.group(0).replaceAll("[\\(\\)]", "").split(","));
 		}
 		return null;
 	}

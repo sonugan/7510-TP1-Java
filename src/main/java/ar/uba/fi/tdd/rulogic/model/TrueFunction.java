@@ -12,8 +12,10 @@ public class TrueFunction {
 	}
 
 	public boolean evaluate(HashMap<String, String> params){
+		System.out.println(this.evalFunc.getName());
         List<String> paramsToEval = new ArrayList<String>();
 		for(String a : this.args){
+			System.out.println(params.get(a));
 			paramsToEval.add(params.get(a));
 		}
         return this.evalFunc.evaluate(paramsToEval);

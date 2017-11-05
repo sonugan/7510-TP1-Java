@@ -22,9 +22,13 @@ public class KnowledgeBase {
 		parseDB(lines);
 	}
 
+	public KnowledgeBase(List<String> sentences) throws InvalidFormatException {
+		parseDB(sentences);
+	}
+
 	public boolean answer(String query) throws InvalidFormatException{
 		QueryParser queryParser = new QueryParser(query);
-        if(!queryParser.hasValidFormat()){
+		if(!queryParser.hasValidFormat()){
 			throw new InvalidFormatException("La consulta no tiene un formato correcto");
 		}
         String name = queryParser.getName();
@@ -32,8 +36,8 @@ public class KnowledgeBase {
         Sentence expression = findByName(name);
         if(expression == null){
             return false;
-        }
-        return expression.evaluate(params);
+		}
+		return expression.evaluate(params);
 	}
 
 	private void parseDB(List<String> db) throws InvalidFormatException{
