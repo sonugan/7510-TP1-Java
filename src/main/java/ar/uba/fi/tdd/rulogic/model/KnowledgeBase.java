@@ -10,17 +10,6 @@ import ar.uba.fi.tdd.rulogic.exceptions.*;
 public class KnowledgeBase {
 
 	private List<Sentence> db;
-	public KnowledgeBase(String path) throws IOException, InvalidFormatException{
-		List<String> lines = new ArrayList<String>();
-		FileReader fr = new FileReader(path);
-		BufferedReader br = new BufferedReader(fr);
-
-		String line;
-		while((line = br.readLine()) != null){
-			lines.add(line);
-		}
-		parseDB(lines);
-	}
 
 	public KnowledgeBase(List<String> sentences) throws InvalidFormatException {
 		parseDB(sentences);

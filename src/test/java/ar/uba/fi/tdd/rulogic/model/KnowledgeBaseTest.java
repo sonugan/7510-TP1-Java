@@ -191,4 +191,11 @@ public class KnowledgeBaseTest {
 			Assert.assertTrue(false);
 		}
 	}
+
+	@Test
+	public void testNoiseCharacters(){
+		String s = "hijo (roberto) ";
+		String s2 = s.replaceAll(RegexCollection.strNoisyCharacters, "");
+		Assert.assertTrue(s2.equals("hijo(roberto)"));
+	}
 }
